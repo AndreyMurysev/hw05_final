@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Записи сообщества {% endblock %}
+{% block header %}<h1></h1>{% endblock %}
+{% block content %}
+<main role="main" class="container">
+  {% include 'includes/author.html' %}
+    <div class="col-md-9">
+      {% include "includes/post_item.html" with post=post %}
+      {% include 'includes/comments.html' %}
+    </div>
+  
+</main>
+{% endblock %} 

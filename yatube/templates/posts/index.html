@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Все самое новое{% endblock %}
+{% block header %}<h1>Все самое новое</h1>{% endblock %}
+{% block content %}
+  <div class="container">
+    {% include 'includes/menu.html' with index=True %}
+    {% for post in page %}
+      {% include 'includes/post_item.html' with post=post %}
+    {% endfor %}
+  </div>
+{% include 'includes/paginator.html' with items=page paginator=paginator %}
+
+{% endblock %} 
