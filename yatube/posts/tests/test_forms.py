@@ -101,7 +101,7 @@ class PostCreateFormTests(TestCase):
 
     def test_comment_edit(self):
         """
-        Проверка формы создания коментария.
+        Проверка формы создания комментария.
         """
         comment_count = Comment.objects.count()
         form_data = {'text': TEST_TEXT_3}

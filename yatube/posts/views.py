@@ -30,7 +30,7 @@ def group_posts(request, slug):
     — прерывает работу view-функции и возвращает страницу с ошибкой 404.
     """
     group = get_object_or_404(Group, slug=slug)
-    posts = group.posts.all()[:30]
+    posts = group.posts.select_related('group').all()[:30]
     paginator = Paginator(posts, PAGINATOR_LIST)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -40,14 +40,14 @@ def group_posts(request, slug):
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = author.posts.all()
+    posts = author.posts.select_related('group').all()
     paginator = Paginator(posts, PAGINATOR_LIST)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     current_path = request.get_full_path()
     following = Follow.objects.filter(
         user_id=request.user.id,
-        author_id=author.id)
+        author_id=author.id).exists()
     context = {
         'author': author,
         'page': page,
@@ -58,7 +58,7 @@ def profile(request, username):
 
 def post_view(request, username, post_id):
     author = get_object_or_404(User, username=username)
-    post = author.posts.get(pk=post_id)
+    post = author.posts.select_related('group').get(pk=post_id)
     comments = post.comments.all()
     form = CommentForm(request.POST or None)
     current_path = request.get_full_path()
@@ -125,7 +125,6 @@ def add_comment(request, username, post_id):
 
 @login_required
 def follow_index(request):
-    # информация о текущем пользователе доступна в переменной request.user
     current_user = get_object_or_404(User, id=request.user.id)
     author_following = current_user.follower.all().values_list('author_id')
     latest = Post.objects.filter(author_id__in=author_following)[:30]

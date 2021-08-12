@@ -66,6 +66,9 @@ class Comment(models.Model):
     text = models.TextField('Текст')
     created = models.DateTimeField('Дата публикации', auto_now_add=True)
 
+    def __str__(self):
+        return textwrap.shorten(self.text, width=15)
+
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
@@ -75,8 +78,17 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name='Фолловер',
         related_name='follower')
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
+        verbose_name='Автор',
         related_name='following')
+
+    def __str__(self):
+        return f'{(self.user)}'
+
+    class Meta:
+        verbose_name = 'Фолловер'
+        verbose_name_plural = 'Фолловеры'

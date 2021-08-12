@@ -1,11 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
-from django.urls import reverse
 
 User = get_user_model()
 
-AUTHOR_URLS = reverse('about:author')
-TECH_URLS = reverse('about:tech')
+AUTHOR_URLS = '/about/author/'
+TECH_URLS = '/about/tech/'
 MESS_TEMPLATE_HTML = 'шаблон {} не соответствует адресу {}'
 MESS_PAGE_USER = 'страница не отображается по адресу "{}"'
 ST_CODE_1 = 200
@@ -14,7 +13,7 @@ AUTHOR_TEMPLATE = 'about/author.html'
 TECH_TEMPLATE = 'about/tech.html'
 
 
-class AboutTests(TestCase):
+class AboutTestsUrls(TestCase):
     def setUp(self):
         self.guest_client = Client()
         self.user = User.objects.create_user(username=USER_NAME)
@@ -23,7 +22,7 @@ class AboutTests(TestCase):
 
     def test_name_use_correct_template(self):
         """
-        Вызываются ли для страниц ожидаемые шаблоны через name.
+        Вызываются ли для страниц ожидаемые шаблоны через URLS.
         """
         templates_url_names = {
             AUTHOR_URLS: AUTHOR_TEMPLATE,
@@ -38,7 +37,7 @@ class AboutTests(TestCase):
 
     def test_shows_urls_guest_client(self):
         """
-        Cтраницы /author/ и /tech/ доступны пользователю через name.
+        Cтраницы /about/author/ и /about/tech/ доступны пользователям по URLS.
         """
         html_urls = {
             self.guest_client.get(AUTHOR_URLS): ST_CODE_1,

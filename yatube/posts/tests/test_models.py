@@ -1,46 +1,55 @@
-from django.test import TestCase
+import textwrap
 
-from ..models import Group, Post, User
+from django.test import Client, TestCase
 
-MESS_POST = 'представление title в виде названия группы'
-MESS_GROUP = 'представление text в виде пятнадцати символов поста:'
+from ..models import Follow, Comment, Group, Post, User
+
+MESS = 'проверьте представления в models'
 TEST_TEXT_TITLE = 'Заголовок тестовой задачи'
 TEST_TEXT_DESCRIP = 'Тестовый текст'
 TEST_TEXT_SLUG = 'test-group'
 TEST_TEXT = 'Запись тестовой задачи'
 USER_NAME = 'John'
+USER_NAME_2 = 'Roi'
 
 
 class GroupPostModelTest(TestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
+        cls.user = User.objects.create_user(username=USER_NAME)
+        cls.user2 = User.objects.create_user(username=USER_NAME_2)
         cls.group = Group.objects.create(
             title=TEST_TEXT_TITLE,
             description=TEST_TEXT_DESCRIP,
             slug=TEST_TEXT_SLUG)
         cls.post = Post.objects.create(
             text=TEST_TEXT,
-            author=User.objects.create_user(username=USER_NAME))
+            author=cls.user)
+        cls.comment = Comment.objects.create(
+            text=TEST_TEXT,
+            author=cls.user,
+            post=cls.post)
+        cls.follow = Follow.objects.create(
+            user=cls.user,
+            author=cls.user2)
 
-    def test_verbose_name(self):
-        """
-        Проверка __str__ класса Post приложения posts.
-        """
-        group = self.group
-        verbose = group.title
-        self.assertEqual(
-            verbose,
-            self.group.title,
-            MESS_GROUP)
+    def setUp(self):
+        self.guest_client = Client()
+        self.authorixed_client = Client()
+        self.authorixed_client2 = Client()
+        self.authorixed_client.force_login(self.user)
+        self.authorixed_client2.force_login(self.user2)
 
-    def text_value_post(self):
+    def test_str_models(self):
         """
-        Проверка __str__ класса Group приложения posts..
+        Проверка __str__ models приложения posts.
         """
-        post = self.post
-        value = post.text[:15]
-        self.assertEqual(
-            value,
-            str(post),
-            MESS_POST)
+        list_str = {
+            str(self.group): self.group.title,
+            str(self.post): textwrap.shorten(self.post.text, width=15),
+            str(self.comment): textwrap.shorten(self.comment.text, width=15),
+            str(self.follow): str(self.follow.user)}
+        for key, value in list_str.items():
+            with self.subTest(value=value):
+                self.assertEqual(key, value, MESS)

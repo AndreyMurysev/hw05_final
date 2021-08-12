@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Comment, Group, Post
+from .models import Follow, Comment, Group, Post
 
 VOID = '-пусто-'
 
@@ -27,4 +27,10 @@ class GroupAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('pk', 'text', 'author', 'post', 'created')
+    empty_value_display = VOID
+
+
+@admin.register(Follow)
+class Follow(admin.ModelAdmin):
+    list_display = ('pk', 'user', 'author')
     empty_value_display = VOID
