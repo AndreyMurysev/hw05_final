@@ -13,7 +13,7 @@ PAGINATOR_LIST = settings.PAGINATOR_LIST
 @cache_page(20, key_prefix='index_page')
 def index(request):
     """
-    Сортирует по дате посты в базе и вывводит 11 результатов.
+    Сортирует по дате посты в базе и вывводит 30 результатов.
     """
     latest = Post.objects.all()[:30]
     paginator = Paginator(latest, PAGINATOR_LIST)
@@ -25,7 +25,7 @@ def index(request):
 
 def group_posts(request, slug):
     """
-    Прнимает название сообщества и выводит последнии 12 записей
+    Прнимает название сообщества и выводит последнии 30 записей
     get_object_or_404 ищет в базе объект модели и если не находит
     — прерывает работу view-функции и возвращает страницу с ошибкой 404.
     """
@@ -59,14 +59,12 @@ def profile(request, username):
 def post_view(request, username, post_id):
     author = get_object_or_404(User, username=username)
     post = author.posts.select_related('group').get(pk=post_id)
-    comments = post.comments.all()
     form = CommentForm(request.POST or None)
     current_path = request.get_full_path()
     context = {
         'post': post,
         'current_path': current_path,
         'author': author,
-        'comments': comments,
         'form': form}
     return render(request, 'posts/post.html', context)
 
