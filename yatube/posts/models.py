@@ -92,3 +92,24 @@ class Follow(models.Model):
     class Meta:
         verbose_name = 'Фолловер'
         verbose_name_plural = 'Фолловеры'
+
+class Like(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Лайки',
+        related_name='like_follower')
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Автор',
+        related_name='like_following')
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        verbose_name='Пост',
+        related_name='post_like')
+
+    class Meta:
+        verbose_name = 'Лайк'
+        verbose_name_plural = 'Лайки'
