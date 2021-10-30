@@ -17,6 +17,10 @@ urlpatterns = [
         '<str:username>/unfollow/',
         views.profile_unfollow,
         name='profile_unfollow'),
+    path(
+        '<str:username>/<int:post_id>/like/',
+        views.like_follow,
+        name='like_follow'),
     path('new/', views.new_post, name='new_post'),
     path('<str:username>/<post_id>/edit/', views.post_edit, name='edit_post'),
     path('group/<slug:slug>/', views.group_posts, name='group_posts'),

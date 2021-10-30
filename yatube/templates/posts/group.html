@@ -2,6 +2,7 @@
 {% block title %}Записи сообщества {{ group.title }}{% endblock %}
 {% block header %}<h1>{{ group.title }}</h1>{% endblock %}
 {% block content %}
+{% include 'includes/menu.html' with index=True %}
 {% load user_filters %}
 <p>{{ group.description }}</p>
   {% for post in page %}
@@ -12,4 +13,4 @@
 
   {% include 'includes/paginator.html' with items=page paginator=paginator %}
 
-{% endblock %} 
+{% endblock %}

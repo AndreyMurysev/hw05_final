@@ -3,9 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.cache import cache_page
+from django.http import HttpResponseRedirect
 
 from .forms import CommentForm, PostForm
-from .models import Follow, Group, Post, User
+from .models import Follow, Group, Like, Post, User
 
 PAGINATOR_LIST = settings.PAGINATOR_LIST
 
@@ -34,7 +35,7 @@ def group_posts(request, slug):
     paginator = Paginator(posts, PAGINATOR_LIST)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    context = {'page': page, 'group': group}
+    context = {'page': page, 'group': group, 'love_game': True}
     return render(request, 'posts/group.html', context)
 
 
@@ -61,11 +62,15 @@ def post_view(request, username, post_id):
     post = author.posts.select_related('group').get(pk=post_id)
     form = CommentForm(request.POST or None)
     current_path = request.get_full_path()
+    like = Like.objects.filter(
+        user_id=request.user.id,
+        post_id=post.id).exists()
     context = {
         'post': post,
         'current_path': current_path,
         'author': author,
-        'form': form}
+        'form': form,
+        'like': like}
     return render(request, 'posts/post.html', context)
 
 
@@ -129,7 +134,7 @@ def follow_index(request):
     paginator = Paginator(latest, PAGINATOR_LIST)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    context = {'page': page}
+    context = {'page': page, 'follow': True}
     return render(request, 'posts/follow.html', context)
 
 
@@ -151,3 +156,19 @@ def profile_unfollow(request, username):
         user_id=request.user.id,
         author_id=profile.id).delete()
     return redirect('profile', username)
+
+@login_required
+def like_follow(request, username, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    author = get_object_or_404(User, username=username)
+    like = Like.objects.filter(
+        user_id=request.user.id,
+        post_id=post.id).exists()
+    if like:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    Like.objects.create(
+        user_id=request.user.id,
+        author_id=author.id,
+        post_id=post.id)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

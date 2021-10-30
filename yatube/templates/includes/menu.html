@@ -11,6 +11,11 @@
         Избранные авторы
       </a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link {% if love_game %}active{% endif %}" href="{% url 'group_posts' slug='love_game' %}">
+        Ваш ТОП
+      </a>
+    </li>
   </ul>
 </div>
 {% endif %}
