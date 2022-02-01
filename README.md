@@ -4,7 +4,7 @@
 
 
 ## Описание
-Проект задеплоен на python-anywhere, посмотреть и протестировать  здесь:
+Проект задеплоен на python-anywhere, посмотреть и протестировать возможно здесь:
 [YaMyGame](http://futuresenior.pythonanywhere.com/)
 
 YaMyGame - это социальная сеть для публикации постов с играми, разработана для изучения фреймворка Django.
@@ -34,7 +34,7 @@ python -m venv venv
 source activate 
 ```
 
-Установите требуемые зависимости
+- Установите требуемые зависимости
 ```
 pip install -r requirements.txt
 ```
