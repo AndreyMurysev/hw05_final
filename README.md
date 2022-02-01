@@ -1,7 +1,7 @@
 # Блог YaMyGame
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
-[![SQLite](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
+
 
 ## Описание
 Проект задеплоен на python-anywhere, посмотреть и протестировать  здесь:
@@ -9,7 +9,7 @@
 
 YaMyGame - это социальная сеть для публикации постов с играми, разработана для изучения фреймворка Django.
 
-Возможности для пользователей: 
+## Возможности для пользователей: 
 
 - регистрироваться и логиниться, восстанавливать пароль по почте
 - создавать, редактировать, удалять свой профиль (аватар, описание)
@@ -20,24 +20,39 @@ YaMyGame - это социальная сеть для публикации по
 - подписываться на авторов, просматривать список подписок и подписчиков
 - cтавить и убирать лайки на публикации
 
-Модерация записей осуществляется через встроенную панель администратора
-Используемые технологии
-Django 2.2
-Python 3.8
-SQLite
-HTML/CSS
-Установка проекта:
-Клонируйте данный репозиторий
-git clone https://github.com/Viktrols/blog-yatube-yandex-praktikum.git
+## Возможности для администратора: 
 
-Создайте и активируйте виртуальное окружение
-python -m venv venv<br>
-source ./venv/Scripts/activate  #для Windows
-source ./venv/bin/activate      #для Linux и macOS
+Модерация записей осуществляется через встроенную панель администратора
+
+## Установка проекта:
+- Клонировать репозиторий GitHub:
+[https://github.com/AndreyMurysev/hw05_final](https://github.com/AndreyMurysev/hw05_final) 
+
+- Создайте и активируйте виртуальное окружение
+```
+python -m venv venv  
+source activate 
+```
+
 Установите требуемые зависимости
+```
 pip install -r requirements.txt
-Примените миграции
+```
+
+- Сделать миграции, создать суперпользователя и собрать статику:
+```
 python manage.py migrate
-Запустите django-сервер
+python manage.py createsuperuser
+python manage.py collectstatic --no-input
+```
+
+- Запустите django-сервер
+```
 python manage.py runserver
-Приложение будет доступно по адресу: http://127.0.0.1:8000/
+```
+**Приложение будет доступно по адресу:** _http://127.0.0.1:8000/_
+
+### Автор проекта:
+_Мурысев Андрей_  
+**email:** _andreimurysev@yandex.ru_  
+**telegram:** _@andrey_murysev_  
