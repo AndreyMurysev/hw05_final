@@ -5,7 +5,7 @@
 
 ## Описание
 Проект задеплоен на python-anywhere, посмотреть и протестировать возможно здесь:
-[YaMyGame](http://futuresenior.pythonanywhere.com/)
+[YaMyGame](http://andreymurysev.pythonanywhere.com/)
 
 YaMyGame - это социальная сеть для публикации постов с играми, разработана для изучения фреймворка Django.
 
