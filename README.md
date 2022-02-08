@@ -1,7 +1,13 @@
 # Блог YaMyGame
+
+## Стэк:
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
 
+## Системные требования:
+Python 3.9.7
+Django 2.2.16
+Pillow 8.3.1
 
 ## Описание
 Проект задеплоен на python-anywhere, посмотреть и протестировать возможно здесь:
